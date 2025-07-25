@@ -1,0 +1,29 @@
+{
+  "name": "yuridia-makeup-citas",
+  "version": "1.0.0",
+  "description": "Sistema de Citas para Yuridia Makeup - Aplicación web profesional para gestión de citas de maquillaje",
+  "main": "index.html",
+  "scripts": {
+    "dev": "serve .",
+    "build": "echo 'Build complete - Static files ready'",
+    "start": "serve .",
+    "preview": "serve ."
+  },
+  "keywords": [
+    "makeup",
+    "appointments",
+    "beauty",
+    "booking",
+    "yuridia",
+    "firebase"
+  ],
+  "author": "Yuridia Makeup",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

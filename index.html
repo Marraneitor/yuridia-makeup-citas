@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Yuridia Makeup - Agenda tu Cita</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    spacing: {
+                        'safe-top': 'env(safe-area-inset-top)',
+                        'safe-bottom': 'env(safe-area-inset-bottom)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts: Poppins & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Viewport Meta para dispositivos móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            emailjs.init({
+                publicKey: "q14FqhdjUSICAGOTm",
+            });
+        });
+    </script>
+
+    <!-- Scripts de Firebase -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, query, where, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDdO86LeB2mUWeCb85FPw03XPR_ulGfIZA",
+            authDomain: "citas-yuridia-makeup.firebaseapp.com",
+            projectId: "citas-yuridia-makeup",
+            storageBucket: "citas-yuridia-makeup.firebasestorage.app",
+            messagingSenderId: "423454216995",
+            appId: "1:423454216995:web:ec6f6b8f2b9bba4054b296",
+            measurementId: "G-MHPETD64SS"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Hacemos la base de datos accesible globalmente para el otro script
+        window.db = db;
+        window.firebase = { collection, addDoc, getDocs, query, where, doc, getDoc };
+    </script>
+    
+    <style>
+        /* SISTEMA DE DISEÑO PREMIUM YURIDIA MAKEUP */
+        :root {
+            /* Paleta de Colores Premium Expandida */
+            --brand-rose: #e91e63;
+            --brand-rose-dark: #c2185b;
+            --brand-rose-light: #f48fb1;
+            --brand-gold: #d4af37;
+            --brand-gold-dark: #b8941f;
+            --brand-gold-light: #e6c765;
+            --brand-charcoal: #2c2c2c;
+            --brand-charcoal-light: #424242;
+            --brand-light: #fef7f7;
+            --brand-cream: #faf7f2;
+            --brand-pearl: #f8f6f0;
+            
+            /* Gradientes Premium */
+            --brand-gradient: linear-gradient(135deg, #e91e63 0%, #d4af37 50%, #e91e63 100%);
+            --brand-gradient-soft: linear-gradient(135deg, rgba(233, 30, 99, 0.1) 0%, rgba(212, 175, 55, 0.1) 100%);
+            --hero-gradient: linear-gradient(135deg, #fef7f7 0%, #f8f6f0 25%, #faf7f2 50%, #f8f6f0 75%, #fef7f7 100%);
+            --luxury-gradient: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,246,240,0.8) 100%);
+            
+            /* Efectos de Cristal y Blur */
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-bg-strong: rgba(255, 255, 255, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --glass-shadow-strong: 0 12px 40px rgba(0, 0, 0, 0.15);
+            
+            /* Sombras Premium */
+            --luxury-shadow: 0 20px 40px rgba(233, 30, 99, 0.15), 0 10px 20px rgba(0, 0, 0, 0.1);
+            --elegant-shadow: 0 10px 30px rgba(44, 44, 44, 0.1), 0 5px 15px rgba(233, 30, 99, 0.05);
+            --soft-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --floating-shadow: 0 25px 50px rgba(233, 30, 99, 0.2), 0 15px 25px rgba(0, 0, 0, 0.1);
+            
+            /* Espaciado Fluido */
+            --space-xs: clamp(0.25rem, 0.5vw, 0.5rem);
+            --space-sm: clamp(0.5rem, 1vw, 1rem);
+            --space-md: clamp(1rem, 2vw, 1.5rem);
+            --space-lg: clamp(1.5rem, 3vw, 2.5rem);
+            --space-xl: clamp(2rem, 4vw, 4rem);
+            --space-2xl: clamp(3rem, 6vw, 6rem);
+            
+            /* Tipografía Fluida */
+            --text-xs: clamp(0.75rem, 0.9vw, 0.875rem);
+            --text-sm: clamp(0.875rem, 1vw, 1rem);
+            --text-base: clamp(1rem, 1.2vw, 1.125rem);
+            --text-lg: clamp(1.125rem, 1.4vw, 1.25rem);
+            --text-xl: clamp(1.25rem, 1.6vw, 1.5rem);
+            --text-2xl: clamp(1.5rem, 2vw, 2rem);
+            --text-3xl: clamp(1.875rem, 2.5vw, 2.5rem);
+            --text-4xl: clamp(2.25rem, 3vw, 3.5rem);
+            --text-5xl: clamp(3rem, 4vw, 4.5rem);
+            --text-6xl: clamp(3.75rem, 5vw, 6rem);
+            
+            /* Bordes y Radius */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-2xl: 32px;
+            --radius-full: 9999px;
+            
+            /* Transiciones Suaves */
+            --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        /* Reset y Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--hero-gradient);
+            color: var(--brand-charcoal);
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Partículas Flotantes de Lujo */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(233, 30, 99, 0.05) 0%, transparent 30%),
+                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.04) 0%, transparent 30%),
+                radial-gradient(circle at 40% 60%, rgba(233, 30, 99, 0.03) 0%, transparent 30%),
+                radial-gradient(circle at 70% 30%, rgba(212, 175, 55, 0.03) 0%, transparent 30%);
+            pointer-events: none;
+            z-index: -1;
+            animation: floating-luxury 25s ease-in-out infinite;
+        }
+
+        @keyframes floating-luxury {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-15px) rotate(1deg); }
+            50% { transform: translateY(-8px) rotate(-0.5deg); }
+            75% { transform: translateY(-12px) rotate(0.5deg); }
+        }
+
+        /* Tipografía Premium */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--brand-charcoal);
+        }
+
+        /* Efectos de Cristal Mejorados */
+        .glass-effect {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-effect-strong {
+            background: var(--glass-bg-strong);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow-strong);
+        }
+
+        .glass-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .glass-effect:hover::before {
+            left: 100%;
+        }
+
+        /* Sombras Luxury */
+        .luxury-shadow {
+            box-shadow: var(--luxury-shadow);
+        }
+
+        .elegant-shadow {
+            box-shadow: var(--elegant-shadow);
+        }
+
+        .soft-shadow {
+            box-shadow: var(--soft-shadow);
+        }
+
+        /* Animaciones Premium */
+        .hover-lift {
+            transition: var(--transition-smooth);
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--floating-shadow);
+        }
+
+        .floating-animation {
+            animation: floating-smooth 8s ease-in-out infinite;
+        }
+
+        @keyframes floating-smooth {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+        }
+
+        /* Efecto Shimmer Mejorado */
+        .shimmer-text {
+            background: var(--brand-gradient);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer-luxury 4s ease-in-out infinite;
+        }
+
+        @keyframes shimmer-luxury {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Botones Premium Rediseñados */
+        .btn-premium {
+            background: var(--brand-gradient);
+            border: none;
+            color: white;
+            padding: var(--space-md) var(--space-lg);
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: var(--text-base);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(233, 30, 99, 0.3);
+            min-height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .btn-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-premium:hover::before {
+            left: 100%;
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(233, 30, 99, 0.4);
+        }
+
+        .btn-premium:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+
+        /* Colores de Marca */
+        .text-brand-pink { color: var(--brand-rose); }
+        .text-brand-gold { color: var(--brand-gold); }
+        .text-brand-charcoal { color: var(--brand-charcoal); }
+        .bg-brand-pink { background-color: var(--brand-rose); }
+        .bg-brand-gold { background-color: var(--brand-gold); }
+        .bg-brand-charcoal { background-color: var(--brand-charcoal); }
+
+        /* Grid de Calendario Responsivo */
+        .calendar-grid { 
+            display: grid; 
+            grid-template-columns: repeat(7, 1fr); 
+            gap: var(--space-xs);
+        }
+
+        .calendar-day { 
+            transition: var(--transition-smooth);
+            position: relative;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            cursor: pointer;
+        }
+        
+        .calendar-day:not(.disabled):hover { 
+            transform: scale(1.1); 
+            background: var(--brand-gradient);
+            color: white; 
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.3);
+            z-index: 10;
+        }
+        
+        .selected-day { 
+            background: var(--brand-gradient) !important; 
+            color: white !important; 
+            transform: scale(1.05); 
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.4);
+            z-index: 5;
+        }
+        
+        .disabled { 
+            opacity: 0.4; 
+            cursor: not-allowed;
+            background: rgba(200, 200, 200, 0.3);
+        }
+
+        /* Time Slots Premium */
+        .time-slot {
+            transition: var(--transition-smooth);
+            position: relative;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--glass-border);
+            cursor: pointer;
+            font-size: var(--text-base);
+        }
+
+        .time-slot:not(.disabled):hover { 
+            background: var(--brand-gradient);
+            color: white;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(233, 30, 99, 0.3);
+            border-color: var(--brand-gold);
+        }
+        
+        .selected-time { 
+            background: var(--brand-gradient) !important; 
+            color: white !important; 
+            border-color: var(--brand-gold) !important;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(233, 30, 99, 0.4);
+        }
+
+        /* Modal Premium */
+        .modal-enter { 
+            animation: modalSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes modalSlideIn { 
+            from { 
+                opacity: 0; 
+                transform: scale(0.9) translateY(20px); 
+            } 
+            to { 
+                opacity: 1; 
+                transform: scale(1) translateY(0); 
+            } 
+        }
+
+        /* Galería Premium */
+        .gallery-img { 
+            aspect-ratio: 1 / 1; 
+            object-fit: cover; 
+            transition: var(--transition-smooth);
+            position: relative;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+        }
+        
+        .gallery-img:hover { 
+            transform: scale(1.05) rotate(1deg); 
+            box-shadow: 0 20px 40px rgba(233, 30, 99, 0.25);
+            filter: brightness(1.1) saturate(1.1);
+            z-index: 10;
+        }
+
+        /* Indicadores de Estado */
+        .availability-pulse {
+            animation: pulse-glow 3s ease-in-out infinite;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: var(--text-sm);
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 30px rgba(76, 175, 80, 0.6);
+                transform: scale(1.02);
+            }
+        }
+
+        /* Estadísticas de Confianza */
+        .trust-stats {
+            background: var(--glass-bg-strong);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            transition: var(--transition-smooth);
+        }
+
+        .trust-stats:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(233, 30, 99, 0.15);
+        }
+
+        /* RESPONSIVE DESIGN PREMIUM */
+        
+        /* Desktop First - Large Screens */
+        @media (min-width: 1200px) {
+            .container-xl {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+        }
+
+        /* Large Tablets */
+        @media (max-width: 1024px) {
+            :root {
+                --space-lg: clamp(1rem, 2.5vw, 2rem);
+                --space-xl: clamp(1.5rem, 3vw, 3rem);
+            }
+            
+            .glass-effect {
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+            }
+            
+            .calendar-grid {
+                gap: var(--space-xs);
+            }
+            
+            .calendar-day {
+                padding: var(--space-sm);
+                font-size: var(--text-sm);
+                min-height: 44px;
+            }
+
+            .btn-premium {
+                padding: var(--space-sm) var(--space-md);
+                font-size: var(--text-sm);
+            }
+        }
+
+        /* Tablets */
+        @media (max-width: 768px) {
+            body {
+                overflow-x: hidden;
+            }
+            
+            /* Header Responsive */
+            .header-responsive {
+                margin: var(--space-xs);
+                padding: var(--space-md);
+                position: sticky;
+                top: var(--space-xs);
+                z-index: 50;
+            }
+            
+            .header-responsive h1 {
+                font-size: var(--text-2xl);
+            }
+            
+            /* Main Content */
+            .main-responsive {
+                padding: var(--space-md);
+                margin-top: var(--space-md);
+            }
+            
+            .main-responsive .glass-effect {
+                padding: var(--space-lg);
+                margin-bottom: var(--space-md);
+                border-radius: var(--radius-2xl);
+            }
+            
+            .main-responsive h2, 
+            .main-responsive h3 {
+                font-size: var(--text-4xl);
+                line-height: 1.1;
+                margin-bottom: var(--space-md);
+            }
+            
+            /* Trust Stats Grid */
+            .trust-stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: var(--space-sm);
+            }
+            
+            .trust-stats {
+                padding: var(--space-sm);
+                text-align: center;
+            }
+            
+            .trust-stats .stat-number {
+                font-size: var(--text-lg);
+            }
+            
+            .trust-stats .stat-label {
+                font-size: var(--text-xs);
+            }
+            
+            /* Availability Badge */
+            .availability-pulse {
+                padding: var(--space-sm) var(--space-md);
+                font-size: var(--text-xs);
+                margin: var(--space-md) 0;
+            }
+            
+            /* Sections */
+            .section-responsive {
+                padding: var(--space-md);
+                margin-top: var(--space-xl);
+            }
+            
+            .section-responsive h4 {
+                font-size: var(--text-3xl);
+                margin-bottom: var(--space-lg);
+                text-align: center;
+            }
+            
+            /* Grid Responsive - Services */
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-md);
+            }
+            
+            /* Grid Responsive - Gallery */
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--space-sm);
+            }
+            
+            /* Calendar Responsive */
+            .calendar-grid {
+                gap: 2px;
+            }
+            
+            .calendar-day {
+                padding: var(--space-xs);
+                font-size: var(--text-xs);
+                min-height: 40px;
+            }
+            
+            .calendar-day:not(.disabled):hover { 
+                transform: scale(1.05); 
+            }
+            
+            /* Time Slots */
+            .time-slots-container {
+                grid-template-columns: 1fr;
+                gap: var(--space-sm);
+            }
+            
+            .time-slot {
+                padding: var(--space-md);
+                font-size: var(--text-base);
+                font-weight: 600;
+                min-height: 48px;
+            }
+            
+            .time-slot:not(.disabled):hover { 
+                transform: translateY(-2px);
+            }
+            
+            /* Forms */
+            .form-responsive input,
+            .form-responsive select,
+            .form-responsive textarea {
+                padding: var(--space-md);
+                font-size: var(--text-base);
+                border-radius: var(--radius-lg);
+                min-height: 48px;
+            }
+            
+            /* Footer */
+            .footer-responsive {
+                margin: var(--space-xs);
+                padding: var(--space-lg);
+            }
+            
+            /* Mobile Menu */
+            .mobile-menu-responsive {
+                margin: var(--space-xs);
+                padding: var(--space-md);
+                border-radius: var(--radius-xl);
+            }
+            
+            .mobile-menu-responsive a {
+                padding: var(--space-md);
+                font-size: var(--text-lg);
+                min-height: 48px;
+                display: flex;
+                align-items: center;
+            }
+        }
+
+        /* Mobile Phones */
+        @media (max-width: 480px) {
+            /* Extra Mobile Optimizations */
+            .header-responsive {
+                margin: 4px;
+                padding: var(--space-sm);
+            }
+            
+            .header-responsive h1 {
+                font-size: var(--text-xl);
+            }
+            
+            .main-responsive {
+                padding: var(--space-sm);
+            }
+            
+            .main-responsive .glass-effect {
+                padding: var(--space-md);
+            }
+            
+            .main-responsive h2, 
+            .main-responsive h3 {
+                font-size: var(--text-3xl);
+            }
+            
+            /* Single Column Layouts */
+            .trust-stats-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-xs);
+            }
+            
+            .trust-stats {
+                padding: var(--space-xs);
+            }
+            
+            /* Calendar Extra Small */
+            .calendar-day {
+                padding: 4px;
+                font-size: 0.7rem;
+                min-height: 36px;
+            }
+            
+            /* Booking Grid */
+            .booking-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-lg);
+            }
+            
+            .section-responsive {
+                padding: var(--space-sm);
+                margin-top: var(--space-lg);
+            }
+            
+            .footer-responsive {
+                margin: 4px;
+                padding: var(--space-md);
+            }
+        }
+
+        /* Small Mobile (iPhone SE) */
+        @media (max-width: 375px) {
+            .main-responsive h2, 
+            .main-responsive h3 {
+                font-size: var(--text-2xl);
+                line-height: 1.1;
+            }
+            
+            .btn-premium {
+                padding: var(--space-sm) var(--space-md);
+                font-size: var(--text-sm);
+                min-height: 44px;
+            }
+            
+            .calendar-day {
+                padding: 2px;
+                font-size: 0.65rem;
+                min-height: 32px;
+            }
+            
+            .time-slot {
+                padding: var(--space-sm);
+                font-size: var(--text-sm);
+                min-height: 44px;
+            }
+            
+            .time-slots-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Landscape Mobile */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .main-responsive h2, 
+            .main-responsive h3 {
+                font-size: var(--text-3xl);
+            }
+            
+            .booking-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .calendar-day {
+                padding: var(--space-xs);
+                font-size: var(--text-xs);
+            }
+        }
+
+        /* Touch Optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .calendar-day, 
+            .time-slot, 
+            .btn-premium,
+            .touch-target {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .calendar-day:not(.disabled):active { 
+                transform: scale(0.95);
+                background: var(--brand-gradient);
+                color: white;
+            }
+            
+            .time-slot:not(.disabled):active { 
+                transform: scale(0.95);
+                background: var(--brand-gradient);
+                color: white;
+            }
+            
+            .btn-premium:active {
+                transform: scale(0.95);
+            }
+            
+            .hover-lift:active {
+                transform: translateY(-4px) scale(0.98);
+            }
+        }
+
+        /* Scroll Optimizations */
+        .mobile-scroll {
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+        }
+
+        /* Performance Optimizations */
+        .will-change {
+            will-change: transform;
+        }
+
+        /* Accessibility Improvements */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* High Contrast Mode */
+        @media (prefers-contrast: high) {
+            .glass-effect {
+                background: rgba(255, 255, 255, 0.9);
+                border: 2px solid var(--brand-charcoal);
+            }
+            
+            .btn-premium {
+                border: 2px solid white;
+            }
+        }
+
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --brand-charcoal: #f5f5f5;
+                --glass-bg: rgba(0, 0, 0, 0.3);
+                --glass-border: rgba(255, 255, 255, 0.2);
+            }
+            
+            body {
+                background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+                color: #f5f5f5;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-700 antialiased min-h-screen overflow-x-hidden">
+    <!-- Contenedor principal con diseño fluido y responsivo -->
+    <div class="min-h-screen flex flex-col mobile-scroll">
+        <div id="app" class="max-w-7xl mx-auto w-full">
+        <!-- Header Premium Ultra-Responsivo -->
+        <header class="glass-effect-strong luxury-shadow rounded-2xl mx-4 md:mx-6 mt-4 p-4 md:p-6 flex justify-between items-center sticky top-4 z-50 hover-lift will-change">
+            <div class="flex items-center space-x-2">
+                <h1 class="text-xl md:text-2xl lg:text-3xl font-bold text-brand-charcoal">
+                    Yuridia<span class="shimmer-text"> Makeup</span>
+                </h1>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <nav class="hidden lg:flex items-center space-x-6 xl:space-x-8">
+                <div class="flex items-center space-x-6 xl:space-x-8">
+                    <a href="#servicios" class="text-brand-charcoal hover:text-brand-pink transition-all duration-300 font-medium text-sm xl:text-base">Servicios</a>
+                    <a href="#galeria" class="text-brand-charcoal hover:text-brand-pink transition-all duration-300 font-medium text-sm xl:text-base">Galería</a>
+                    <a href="#sobre-mi" class="text-brand-charcoal hover:text-brand-pink transition-all duration-300 font-medium text-sm xl:text-base">Sobre Mí</a>
+                </div>
+                <div class="flex items-center space-x-3 ml-4">
+                    <a href="https://www.instagram.com/makeup_yuridia" target="_blank" 
+                       class="flex items-center justify-center w-9 h-9 xl:w-10 xl:h-10 bg-gradient-to-r from-brand-rose to-brand-gold rounded-full text-white hover:opacity-90 transition-all duration-300 touch-target">
+                        <svg class="w-4 h-4 xl:w-5 xl:h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.40z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.facebook.com/YuridiaMakeup?locale=es_LA" target="_blank" 
+                       class="flex items-center justify-center w-9 h-9 xl:w-10 xl:h-10 bg-gradient-to-r from-brand-rose to-brand-gold rounded-full text-white hover:opacity-90 transition-all duration-300 touch-target">
+                        <svg class="w-4 h-4 xl:w-5 xl:h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </a>
+                    <a href="#reservar" class="btn-premium text-sm xl:text-base px-4 py-2 xl:px-6 xl:py-3">Agendar Cita</a>
+                </div>
+            </nav>
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="lg:hidden text-brand-charcoal hover:text-brand-pink transition-colors touch-target p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" x2="20" y1="12" y2="12"/>
+                    <line x1="4" x2="20" y1="6" y2="6"/>
+                    <line x1="4" x2="20" y1="18" y2="18"/>
+                </svg>
+            </button>
+        </header>
+        
+        <!-- Mobile Menu Premium Ultra-Responsivo -->
+        <div id="mobile-menu" class="hidden lg:hidden mx-4 glass-effect-strong rounded-xl luxury-shadow p-4 mt-2 fade-in">
+            <div class="flex flex-col space-y-1">
+                <a href="#servicios" class="block py-3 px-4 text-brand-charcoal hover:text-brand-pink hover:bg-white/30 rounded-lg transition-all touch-target">Servicios</a>
+                <a href="#galeria" class="block py-3 px-4 text-brand-charcoal hover:text-brand-pink hover:bg-white/30 rounded-lg transition-all touch-target">Galería</a>
+                <a href="#sobre-mi" class="block py-3 px-4 text-brand-charcoal hover:text-brand-pink hover:bg-white/30 rounded-lg transition-all touch-target">Sobre Mí</a>
+            </div>
+            <div class="flex justify-center space-x-4 mt-4 pt-4 border-t border-white/20">
+                <a href="https://www.instagram.com/makeup_yuridia" target="_blank" 
+                   class="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-brand-rose to-brand-gold rounded-full text-white hover:opacity-90 transition-all duration-300 touch-target">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.40s-.644-1.44-1.439-1.40z"/>
+                    </svg>
+                </a>
+                <a href="https://www.facebook.com/YuridiaMakeup?locale=es_LA" target="_blank" 
+                   class="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-brand-rose to-brand-gold rounded-full text-white hover:opacity-90 transition-all duration-300 touch-target">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                </a>
+            </div>
+            <a href="#reservar" class="block mt-4 mx-auto text-center btn-premium w-full text-base">Agendar Cita</a>
+        </div>
+
+        <!-- Hero Section Premium -->
+        <main class="p-4 md:p-6 mt-8 md:mt-16 text-center floating-animation">
+            <div class="glass-effect luxury-shadow rounded-3xl p-8 md:p-12 mb-8">
+                <!-- Estadísticas de confianza -->
+                <div class="grid grid-cols-3 gap-4 mb-8">
+                    <div class="trust-stats rounded-xl p-4 hover-lift">
+                        <div class="text-2xl font-bold text-brand-pink">2000+</div>
+                        <div class="text-sm text-brand-charcoal">Clientas Felices</div>
+                    </div>
+                    <div class="trust-stats rounded-xl p-4 hover-lift">
+                        <div class="text-2xl font-bold text-brand-gold">5⭐</div>
+                        <div class="text-sm text-brand-charcoal">Calificación</div>
+                    </div>
+                    <div class="trust-stats rounded-xl p-4 hover-lift">
+                        <div class="text-2xl font-bold text-brand-pink">5+</div>
+                        <div class="text-sm text-brand-charcoal">Años Experiencia</div>
+                    </div>
+                </div>
+                
+                <h2 class="text-4xl md:text-6xl font-bold leading-tight text-brand-charcoal mb-4">Resalta tu belleza</h2>
+                <h3 class="text-4xl md:text-6xl font-bold shimmer-text leading-tight mb-6">en cada ocasión especial.</h3>
+                
+                <!-- Indicador de disponibilidad -->
+                <div class="availability-pulse bg-green-500 text-white px-6 py-3 rounded-full inline-block mb-6 font-semibold">
+                    ✨ Disponible para citas - ¡Trabajamos todos los días!
+                </div>
+                
+                <p class="mt-6 max-w-2xl mx-auto text-brand-charcoal text-lg mb-8">
+                    Agenda tu cita de maquillaje profesional de forma fácil y rápida. Luce espectacular en tu próximo evento.
+                </p>
+                <a href="#reservar" class="btn-premium text-lg px-8 py-4">¡Quiero Agendar!</a>
+            </div>
+        </main>
+
+        <!-- Secciones Premium (Servicios, Galería, Sobre Mí) -->
+        <section id="servicios" class="p-4 md:p-6 mt-20 md:mt-32">
+            <h4 class="text-center text-3xl font-bold mb-12 text-brand-charcoal">
+                Mis <span class="shimmer-text">Servicios</span>
+            </h4>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-effect elegant-shadow p-8 rounded-2xl text-center hover-lift">
+                    <div class="bg-gradient-to-br from-brand-rose to-brand-gold rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <svg class="text-white" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2 text-brand-charcoal">Maquillaje Social</h5>
+                    <p class="text-brand-charcoal opacity-80">Ideal para bodas, graduaciones, XV años y cualquier evento importante.</p>
+                </div>
+                <div class="glass-effect elegant-shadow p-8 rounded-2xl text-center hover-lift">
+                    <div class="bg-gradient-to-br from-brand-gold to-brand-rose rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <svg class="text-white" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10c0-2-1-4-3-5.5s-4.5-3-6-3-4.5 1.5-6 3-3 3.5-3 5.5Z"/><path d="M12 2v10"/><path d="m16 6-4 4-4-4"/></svg>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2 text-brand-charcoal">Cursos de Automaquillaje</h5>
+                    <p class="text-brand-charcoal opacity-80">Aprende a maquillarte como una profesional. Cursos personalizados y grupales.</p>
+                </div>
+                <div class="glass-effect elegant-shadow p-8 rounded-2xl text-center hover-lift">
+                    <div class="bg-gradient-to-br from-brand-rose to-brand-gold rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <svg class="text-white" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 17.5c-2.2 1.4-5 1.4-7 0-2.2-1.4-5-1.4-7 0"/><path d="M12 4v10.5c0 1.7 1.3 3 3 3s3-1.3 3-3V4"/><path d="M12 4c-1.7 0-3 1.3-3 3v10.5c0 1.7 1.3 3 3 3s3-1.3 3-3V7"/></svg>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2 text-brand-charcoal">Peinado Profesional</h5>
+                    <p class="text-brand-charcoal opacity-80">El complemento perfecto para tu maquillaje. Ondas, recogidos y más.</p>
+                </div>
+            </div>
+        </section>
+        <section id="galeria" class="p-4 md:p-6 mt-20 md:mt-32">
+            <h4 class="text-center text-3xl font-bold mb-12 text-brand-charcoal">
+                Mi <span class="shimmer-text">Trabajo</span>
+            </h4>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Imágenes de Lucero -->
+                <img src="@lucero.rosainz Miss Top Model Veracruz 2023 ❤️Vestuario @gisela_abreu26 Fotografía @yazmin_moct (3).jpg" alt="Lucero Miss Top Model Veracruz 2023" class="w-full h-full rounded-2xl gallery-img elegant-shadow">
+                <img src="@lucero.rosainz Miss Top Model Veracruz 2023 ❤️Vestuario @gisela_abreu26 Fotografía @yazmin_moct (4).jpg" alt="Lucero Miss Top Model Veracruz 2023 - Segundo look" class="w-full h-full rounded-2xl gallery-img elegant-shadow">
+                <!-- Imágenes de Peinados -->
+                <img src="P E I N A D O  G L A M ✨Por @astrid22_v.jpg" alt="Peinado glamuroso profesional" class="w-full h-full rounded-2xl gallery-img elegant-shadow">
+                <img src="P E I N A D O ✨Por @astridvillegas_hairstyle @astrid22_v (1).jpg" alt="Peinado de evento social" class="w-full h-full rounded-2xl gallery-img elegant-shadow">
+                <img src="P E I N A D O ✨Por @astridvillegas_hairstyle @astrid22_v.jpg" alt="Peinado elegante" class="w-full h-full rounded-2xl gallery-img elegant-shadow">
+                <img src="P E I N A D O ❤️_🔥@astridvillegas_hairstyle @astrid22_v (1).jpg" alt="Peinado para evento especial" class="w-full h-full rounded-2xl gallery-img elegant-shadow">
+                <img src="P E I N A D O ❤️_🔥@astridvillegas_hairstyle @astrid22_v.jpg" alt="Peinado sofisticado" class="w-full h-full rounded-2xl gallery-img elegant-shadow">
+                <img src="S O C I A L ✨Peinado @astridvillegas_hairstyle @astrid22_v.jpg" alt="Peinado para evento social" class="w-full h-full rounded-2xl gallery-img elegant-shadow">
+                <img src="XV AÑOS DE MIA💜.jpg" alt="Peinado para quinceañera" class="w-full h-full rounded-2xl gallery-img elegant-shadow">
+                <img src="Y E S S E L I 🤍Peinado @cdoris.hdez (1).jpg" alt="Peinado personalizado" class="w-full h-full rounded-2xl gallery-img elegant-shadow">
+                <!-- Videos -->
+                <video class="w-full h-full rounded-2xl gallery-img elegant-shadow" controls>
+                    <source src="A L A C I A D O  J A P O N E S✨@yamii.mttz (1).mp4" type="video/mp4">
+                    Tu navegador no soporta el elemento de video.
+                </video>
+                <video class="w-full h-full rounded-2xl gallery-img elegant-shadow" controls>
+                    <source src="A L A C I A D O  J A P O N E S✨@yamii.mttz.mp4" type="video/mp4">
+                    Tu navegador no soporta el elemento de video.
+                </video>
+            </div>
+
+            <!-- Estilos adicionales para los videos -->
+            <style>
+                .gallery-img {
+                    object-fit: cover;
+                    aspect-ratio: 1 / 1;
+                }
+                
+                video.gallery-img {
+                    object-fit: contain;
+                    background: rgba(0, 0, 0, 0.05);
+                }
+                
+                video.gallery-img::-webkit-media-controls {
+                    background-color: transparent;
+                }
+                
+                video.gallery-img::-webkit-media-controls-panel {
+                    background-color: rgba(255, 255, 255, 0.7);
+                }
+            </style>
+        </section>
+        <section id="sobre-mi" class="p-4 md:p-6 mt-20 md:mt-32">
+             <h4 class="text-center text-3xl font-bold mb-12 text-brand-charcoal">
+                 Maquillista <span class="shimmer-text">Profesional</span>
+             </h4>
+             <div class="glass-effect luxury-shadow rounded-3xl p-8 md:p-12">
+                 <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
+                     <div class="relative floating-animation">
+                         <img src="https://placehold.co/200x200/e9d5d8/4A5568?text=Yuridia" alt="Foto de Yuridia" class="w-48 h-48 rounded-full elegant-shadow hover-lift">
+                         <div class="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-br from-brand-rose to-brand-gold rounded-full flex items-center justify-center">
+                             <span class="text-white text-xl">✨</span>
+                         </div>
+                     </div>
+                     <div class="text-center md:text-left max-w-lg">
+                        <h5 class="text-2xl font-bold text-brand-charcoal mb-2">Yuridia González</h5>
+                        <p class="text-brand-gold font-semibold mb-4">Artista del Maquillaje Profesional</p>
+                        <p class="text-brand-charcoal opacity-90 leading-relaxed">
+                            Apasionada por el arte del maquillaje y dedicada a realzar la belleza única de cada persona. 
+                            Con años de experiencia y en constante capacitación, mi objetivo es que te sientas segura y radiante 
+                            en cualquier ocasión. <span class="font-semibold text-brand-pink">¡Confía en mí para tu próximo evento!</span>
+                        </p>
+                        <div class="mt-6 grid grid-cols-2 gap-4">
+                            <div class="text-center p-3 glass-effect rounded-xl">
+                                <div class="text-lg font-bold text-brand-pink">500+</div>
+                                <div class="text-sm text-brand-charcoal">Transformaciones</div>
+                            </div>
+                            <div class="text-center p-3 glass-effect rounded-xl">
+                                <div class="text-lg font-bold text-brand-gold">7 días</div>
+                                <div class="text-sm text-brand-charcoal">Disponibilidad</div>
+                            </div>
+                        </div>
+                     </div>
+                 </div>
+             </div>
+        </section>
+
+        <!-- Sección de Reservas Premium -->
+        <section id="reservar" class="p-4 md:p-6 mt-20 md:mt-32">
+            <h4 class="text-center text-3xl font-bold mb-12 text-brand-charcoal">
+                Agenda tu <span class="shimmer-text">Cita</span>
+            </h4>
+            <div class="glass-effect luxury-shadow p-4 md:p-8 rounded-3xl max-w-6xl mx-auto floating-animation">
+                <!-- Layout responsivo: calendario y detalles -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12">
+                    <!-- Calendario -->
+                    <div id="calendar-container" class="order-1 lg:order-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <button id="prev-month" class="p-2 md:p-3 rounded-full hover:bg-white/30 transition-all text-brand-charcoal hover:text-brand-pink touch-target">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" md:width="24" md:height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                            </button>
+                            <h5 id="month-year" class="text-lg md:text-xl font-semibold text-brand-charcoal text-center flex-1"></h5>
+                            <button id="next-month" class="p-2 md:p-3 rounded-full hover:bg-white/30 transition-all text-brand-charcoal hover:text-brand-pink touch-target">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" md:width="24" md:height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-7 text-center font-medium text-brand-charcoal mb-2 text-xs md:text-sm">
+                            <div class="p-1">Lu</div><div class="p-1">Ma</div><div class="p-1">Mi</div><div class="p-1">Ju</div><div class="p-1">Vi</div><div class="p-1">Sá</div><div class="p-1">Do</div>
+                        </div>
+                        <div id="calendar-grid" class="calendar-grid"></div>
+                    </div>
+                    
+                    <!-- Detalles de reserva -->
+                    <div id="booking-details" class="order-2 lg:order-2">
+                        <!-- Selector de Servicio -->
+                        <div id="service-selection" class="mb-6">
+                            <h5 class="text-lg md:text-xl font-semibold mb-4 text-brand-charcoal">Selecciona tu Servicio</h5>
+                            <select id="service-select" class="w-full p-3 md:p-4 border border-gray-300 rounded-xl focus:ring-2 ring-brand-pink focus:border-brand-pink transition glass-effect text-brand-charcoal text-base" style="font-size: 16px;">
+                                <option value="">-- Elige un servicio --</option>
+                                <optgroup label="🌟 Servicios de Pestañas y Cejas">
+                                    <option value="lifting-pestanas-60">Lifting de Pestañas (1 hora)</option>
+                                    <option value="laminado-cejas-30">Laminado de Cejas (30 min)</option>
+                                    <option value="cejas-hd-60">Cejas HD (1 hora)</option>
+                                </optgroup>
+                                <optgroup label="💇‍♀️ Tratamientos Capilares">
+                                    <option value="keratina-240">Keratina (4 horas)</option>
+                                    <option value="alaciado-japones-240">Alaciado Japonés (4 horas)</option>
+                                    <option value="alaciado-express-60">Alaciado Express (1 hora)</option>
+                                    <option value="ondas-60">Ondas (1 hora)</option>
+                                </optgroup>
+                                <optgroup label="💄 Paquetes de Maquillaje">
+                                    <option value="paquete-1-60">Paquete 1 - Solo Maquillaje (1 hora)</option>
+                                    <option value="paquete-2-120">Paquete 2 - Maquillaje + Moldeado (2 horas)</option>
+                                    <option value="paquete-3-180">Paquete 3 - Maquillaje + Peinado (3 horas)</option>
+                                </optgroup>
+                            </select>
+                            <div id="service-info" class="mt-3 p-3 glass-effect rounded-xl hidden">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-brand-pink">⏱️</span>
+                                    <span id="service-duration" class="font-medium text-brand-charcoal text-sm md:text-base"></span>
+                                </div>
+                                <p id="service-description" class="text-sm text-brand-charcoal opacity-80 mt-2"></p>
+                            </div>
+                        </div>
+
+                        <!-- Horarios Disponibles -->
+                        <div id="time-selection">
+                            <h5 class="text-lg md:text-xl font-semibold mb-4 text-brand-charcoal">Horarios Disponibles</h5>
+                            <div id="time-slots-container" class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-2 md:gap-3">
+                                <p class="col-span-2 text-brand-charcoal opacity-70 text-center py-4">Primero selecciona un servicio y una fecha.</p>
+                            </div>
+                        </div>
+
+                        <!-- Formulario de reserva -->
+                        <div id="booking-form" class="mt-6 md:mt-8 hidden">
+                            <h5 class="text-lg md:text-xl font-semibold mb-4 text-brand-charcoal">Confirma tus Datos</h5>
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="name" class="block font-medium text-brand-charcoal mb-2">Nombre Completo</label>
+                                    <input type="text" id="name" class="w-full p-3 md:p-4 border border-gray-300 rounded-xl focus:ring-2 ring-brand-pink focus:border-brand-pink transition glass-effect text-base" placeholder="Tu nombre y apellido" style="font-size: 16px;">
+                                </div>
+                                <div>
+                                    <label for="phone" class="block font-medium text-brand-charcoal mb-2">Número de Teléfono</label>
+                                    <input type="tel" id="phone" class="w-full p-3 md:p-4 border border-gray-300 rounded-xl focus:ring-2 ring-brand-pink focus:border-brand-pink transition glass-effect text-base" placeholder="Tu número de teléfono" style="font-size: 16px;" required pattern="[0-9]{10}" title="Por favor ingresa un número de teléfono válido de 10 dígitos">
+                                </div>
+                                <div class="p-4 glass-effect rounded-xl">
+                                    <h6 class="font-semibold text-brand-charcoal mb-3">Resumen de tu cita:</h6>
+                                    <div class="space-y-2 text-sm md:text-base">
+                                        <p><span class="text-brand-pink font-medium">Servicio:</span> <span id="summary-service"></span></p>
+                                        <p><span class="text-brand-pink font-medium">Fecha:</span> <span id="summary-date"></span></p>
+                                        <p><span class="text-brand-pink font-medium">Hora:</span> <span id="summary-time"></span></p>
+                                        <p><span class="text-brand-pink font-medium">Duración:</span> <span id="summary-duration"></span></p>
+                                    </div>
+                                </div>
+                                <button id="confirm-booking" class="w-full btn-premium text-base md:text-lg py-4 touch-target">Confirmar Cita</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer Premium -->
+        <footer class="glass-effect luxury-shadow rounded-3xl mx-4 md:mx-6 p-8 mt-20 md:mt-32 text-center">
+            <h4 class="text-center text-3xl font-bold mb-8 text-brand-charcoal">
+                Sígueme en mis <span class="shimmer-text">Redes</span>
+            </h4>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+                <a href="https://www.instagram.com/makeup_yuridia" target="_blank" class="group flex flex-col items-center text-brand-charcoal hover:text-brand-pink transition-all duration-300 hover-lift p-4 rounded-2xl">
+                    <span class="bg-gradient-to-br from-pink-500 to-yellow-500 p-4 rounded-full transition-all duration-300 group-hover:scale-110">
+                        <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </span>
+                    <span class="mt-4 font-semibold text-lg">Instagram</span>
+                </a>
+                <a href="https://www.facebook.com/YuridiaMakeup?locale=es_LA" target="_blank" class="group flex flex-col items-center text-brand-charcoal hover:text-brand-pink transition-all duration-300 hover-lift p-4 rounded-2xl">
+                    <span class="bg-gradient-to-br from-blue-600 to-blue-400 p-4 rounded-full transition-all duration-300 group-hover:scale-110">
+                        <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </span>
+                    <span class="mt-4 font-semibold text-lg">Facebook</span>
+                </a>
+            </div>
+            <p class="mt-8 text-sm text-brand-charcoal opacity-70">&copy; 2025 Yuridia Makeup. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <!-- Modal de Confirmación Premium -->
+    <div id="confirmation-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 hidden modal-enter z-50">
+        <div class="glass-effect luxury-shadow p-6 md:p-8 rounded-3xl text-center max-w-sm w-full mx-auto floating-animation">
+            <div class="bg-gradient-to-br from-green-400 to-green-600 rounded-full w-16 h-16 md:w-20 md:h-20 flex items-center justify-center mx-auto mb-6">
+                <svg class="text-white w-8 h-8 md:w-12 md:h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <h3 class="text-xl md:text-2xl font-bold mb-3 text-brand-charcoal">¡Cita Guardada!</h3>
+            <p id="confirmation-details" class="text-brand-charcoal opacity-80 mb-6 text-sm md:text-base leading-relaxed"></p>
+            <button id="close-modal" class="w-full btn-premium touch-target text-base md:text-lg">Entendido</button>
+        </div>
+    </div>
+
+    <script type="module">
+        // Este script principal ahora usa las funciones de Firebase expuestas en el script anterior
+        document.addEventListener('DOMContentLoaded', function() {
+            const db = window.db;
+            const { collection, addDoc, getDocs, query, where } = window.firebase;
+
+            if (!db) {
+                console.error("Firebase no está inicializado.");
+                return;
+            }
+
+            let currentDate = new Date();
+            let selectedDate = null;
+            let selectedTime = null;
+            let selectedService = null;
+            let serviceDuration = 0; // en minutos
+
+            // Definición de servicios con duraciones en minutos
+            const services = {
+                'lifting-pestanas-60': { name: 'Lifting de Pestañas', duration: 60, description: 'Realza tus pestañas naturalmente' },
+                'laminado-cejas-30': { name: 'Laminado de Cejas', duration: 30, description: 'Cejas perfectamente moldeadas' },
+                'cejas-hd-60': { name: 'Cejas HD', duration: 60, description: 'Definición y volumen profesional' },
+                'keratina-240': { name: 'Keratina', duration: 240, description: 'Tratamiento completo de alisado' },
+                'alaciado-japones-240': { name: 'Alaciado Japonés', duration: 240, description: 'Alisado permanente japonés' },
+                'alaciado-express-60': { name: 'Alaciado Express', duration: 60, description: 'Alisado rápido y efectivo' },
+                'ondas-60': { name: 'Ondas', duration: 60, description: 'Ondas naturales y definidas' },
+                'paquete-1-60': { name: 'Paquete 1 - Solo Maquillaje', duration: 60, description: 'Maquillaje profesional para eventos' },
+                'paquete-2-120': { name: 'Paquete 2 - Maquillaje + Moldeado', duration: 120, description: 'Maquillaje + moldeado de cabello' },
+                'paquete-3-180': { name: 'Paquete 3 - Maquillaje + Peinado', duration: 180, description: 'Servicio completo de belleza' }
+            };
+
+            const monthYearEl = document.getElementById('month-year');
+            const calendarGridEl = document.getElementById('calendar-grid');
+            const prevMonthBtn = document.getElementById('prev-month');
+            const nextMonthBtn = document.getElementById('next-month');
+            const serviceSelect = document.getElementById('service-select');
+            const serviceInfo = document.getElementById('service-info');
+            const serviceDurationEl = document.getElementById('service-duration');
+            const serviceDescriptionEl = document.getElementById('service-description');
+            const timeSlotsContainer = document.getElementById('time-slots-container');
+            const bookingForm = document.getElementById('booking-form');
+            const confirmBookingBtn = document.getElementById('confirm-booking');
+            const modal = document.getElementById('confirmation-modal');
+            const closeModalBtn = document.getElementById('close-modal');
+            const confirmationDetailsEl = document.getElementById('confirmation-details');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            // Elementos del resumen
+            const summaryService = document.getElementById('summary-service');
+            const summaryDate = document.getElementById('summary-date');
+            const summaryTime = document.getElementById('summary-time');
+            const summaryDuration = document.getElementById('summary-duration');
+
+            // Genera horarios en intervalos de 30 minutos desde las 8:00 hasta las 21:00
+            const generateTimeSlots = () => {
+                const slots = [];
+                for (let hour = 8; hour <= 21; hour++) {
+                    for (let minute = 0; minute < 60; minute += 30) {
+                        if (hour === 21 && minute > 0) break; // No pasar de las 21:00
+                        const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+                        slots.push(timeString);
+                    }
+                }
+                return slots;
+            };
+
+            // Verifica si un horario es válido para un servicio (no se superpone con el horario de cierre)
+            const isValidTimeSlot = (startTime, durationMinutes) => {
+                const [hours, minutes] = startTime.split(':').map(Number);
+                const startMinutes = hours * 60 + minutes;
+                const endMinutes = startMinutes + durationMinutes;
+                const closingTime = 21 * 60; // 21:00 en minutos
+                
+                return endMinutes <= closingTime;
+            };
+
+            // Verifica si un horario se superpone con citas existentes
+            const isTimeSlotAvailable = (startTime, durationMinutes, bookedSlots) => {
+                const [hours, minutes] = startTime.split(':').map(Number);
+                const startMinutes = hours * 60 + minutes;
+                const endMinutes = startMinutes + durationMinutes;
+
+                for (const bookedSlot of bookedSlots) {
+                    const [bookedHours, bookedMinutes] = bookedSlot.startTime.split(':').map(Number);
+                    const bookedStartMinutes = bookedHours * 60 + bookedMinutes;
+                    const bookedEndMinutes = bookedStartMinutes + bookedSlot.duration;
+
+                    // Verificar si hay superposición
+                    if (startMinutes < bookedEndMinutes && endMinutes > bookedStartMinutes) {
+                        return false;
+                    }
+                }
+                return true;
+            };
+
+            const renderCalendar = () => {
+                const year = currentDate.getFullYear();
+                const month = currentDate.getMonth();
+                
+                monthYearEl.textContent = new Intl.DateTimeFormat('es-ES', { month: 'long', year: 'numeric' }).format(currentDate);
+                calendarGridEl.innerHTML = '';
+
+                const firstDayOfMonth = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                const startingDay = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
+
+                for (let i = 0; i < startingDay; i++) {
+                    const dayEl = document.createElement('div');
+                    dayEl.classList.add('p-2', 'text-center', 'text-gray-300', 'disabled');
+                    calendarGridEl.appendChild(dayEl);
+                }
+
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dayEl = document.createElement('div');
+                    dayEl.textContent = day;
+                    dayEl.classList.add('p-2', 'text-center', 'rounded-full', 'cursor-pointer', 'calendar-day');
+                    
+                    const today = new Date();
+                    const dayDate = new Date(year, month, day);
+
+                    if (dayDate < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+                        dayEl.classList.add('disabled');
+                    } else {
+                        dayEl.addEventListener('click', () => selectDate(day, month, year));
+                    }
+                    
+                    if (selectedDate && selectedDate.getDate() === day && selectedDate.getMonth() === month && selectedDate.getFullYear() === year) {
+                        dayEl.classList.add('selected-day');
+                    }
+                    calendarGridEl.appendChild(dayEl);
+                }
+            };
+
+            const selectDate = (day, month, year) => {
+                selectedDate = new Date(year, month, day);
+                selectedTime = null;
+                renderCalendar();
+                if (selectedService) {
+                    renderTimeSlots();
+                }
+                bookingForm.classList.add('hidden');
+            };
+
+            const selectService = () => {
+                const serviceValue = serviceSelect.value;
+                if (!serviceValue) {
+                    selectedService = null;
+                    serviceDuration = 0;
+                    serviceInfo.classList.add('hidden');
+                    timeSlotsContainer.innerHTML = '<p class="col-span-2 text-brand-charcoal opacity-70">Primero selecciona un servicio y una fecha.</p>';
+                    return;
+                }
+
+                selectedService = serviceValue;
+                const service = services[serviceValue];
+                serviceDuration = service.duration;
+                
+                // Mostrar información del servicio
+                serviceDurationEl.textContent = `Duración: ${service.duration >= 60 ? Math.floor(service.duration / 60) + 'h' : ''} ${service.duration % 60 > 0 ? (service.duration % 60) + 'min' : ''}`;
+                serviceDescriptionEl.textContent = service.description;
+                serviceInfo.classList.remove('hidden');
+
+                // Si ya hay una fecha seleccionada, mostrar horarios
+                if (selectedDate) {
+                    renderTimeSlots();
+                } else {
+                    timeSlotsContainer.innerHTML = '<p class="col-span-2 text-brand-charcoal opacity-70">Ahora selecciona una fecha para ver los horarios disponibles.</p>';
+                }
+            };
+
+            const renderTimeSlots = async () => {
+                if (!selectedService || !selectedDate) {
+                    timeSlotsContainer.innerHTML = '<p class="col-span-2 text-brand-charcoal opacity-70">Selecciona un servicio y una fecha.</p>';
+                    return;
+                }
+
+                timeSlotsContainer.innerHTML = '<p class="col-span-2 text-brand-charcoal opacity-70 animate-pulse">Cargando horarios...</p>';
+                
+                const dateString = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
+                
+                try {
+                    // Obtener citas ocupadas para esta fecha
+                    const citasQuery = window.firebase.query(window.firebase.collection(window.db, "citas"), window.firebase.where("fecha", "==", dateString));
+                    const citasSnapshot = await window.firebase.getDocs(citasQuery);
+                    const bookedSlots = citasSnapshot.docs.map(doc => {
+                        const data = doc.data();
+                        return {
+                            startTime: data.hora,
+                            duration: data.duracion_servicio || 60 // fallback a 60 minutos si no está definido
+                        };
+                    });
+
+                    // Obtener horarios bloqueados para esta fecha
+                    const blockedHoursDocRef = window.firebase.doc(window.db, "horarios_bloqueados", dateString);
+                    const blockedHoursSnapshot = await window.firebase.getDoc(blockedHoursDocRef);
+                    let blockedHours = [];
+                    
+                    if (blockedHoursSnapshot.exists()) {
+                        blockedHours = blockedHoursSnapshot.data().horas || [];
+                        console.log('Horarios bloqueados encontrados para', dateString, ':', blockedHours);
+                    } else {
+                        console.log('No hay horarios bloqueados para', dateString);
+                    }
+
+                    // Generar todos los horarios posibles
+                    const allTimeSlots = generateTimeSlots();
+                    timeSlotsContainer.innerHTML = '';
+                    
+                    // Filtrar horarios que ya pasaron si es el día de hoy
+                    const today = new Date();
+                    const isToday = selectedDate.toDateString() === today.toDateString();
+                    const currentHour = today.getHours();
+                    const currentMinute = today.getMinutes();
+                    
+                    const availableSlots = allTimeSlots.filter(time => {
+                        // Verificar si el horario ya pasó (solo para hoy)
+                        if (isToday) {
+                            const [hour, minute] = time.split(':').map(Number);
+                            const timeInMinutes = hour * 60 + minute;
+                            const currentTimeInMinutes = currentHour * 60 + currentMinute;
+                            
+                            // Solo mostrar horarios que sean al menos 1 hora después de la hora actual
+                            if (timeInMinutes <= currentTimeInMinutes + 60) {
+                                return false;
+                            }
+                        }
+
+                        // Verificar si el horario está bloqueado manualmente
+                        if (blockedHours.includes(time)) {
+                            console.log('Horario bloqueado:', time);
+                            return false;
+                        }
+
+                        // Verificar si el servicio puede completarse antes del cierre
+                        if (!isValidTimeSlot(time, serviceDuration)) {
+                            return false;
+                        }
+
+                        // Verificar si el horario está disponible (no se superpone con citas existentes)
+                        return isTimeSlotAvailable(time, serviceDuration, bookedSlots);
+                    });
+
+                    if (availableSlots.length === 0) {
+                        timeSlotsContainer.innerHTML = '<p class="col-span-2 text-brand-charcoal opacity-70">No hay horarios disponibles para este servicio en esta fecha.</p>';
+                        return;
+                    }
+
+                    availableSlots.forEach(time => {
+                        const timeSlotEl = document.createElement('button');
+                        timeSlotEl.textContent = time;
+                        timeSlotEl.classList.add('p-3', 'border', 'rounded-xl', 'text-center', 'cursor-pointer', 'transition', 'time-slot', 'border-gray-300', 'hover:bg-brand-pink', 'text-brand-charcoal', 'font-medium');
+                        
+                        timeSlotEl.addEventListener('click', () => selectTime(time));
+                        
+                        if(selectedTime === time) {
+                            timeSlotEl.classList.add('selected-time');
+                        }
+                        timeSlotsContainer.appendChild(timeSlotEl);
+                    });
+                    
+                } catch (error) {
+                    console.error('Error al cargar horarios:', error);
+                    timeSlotsContainer.innerHTML = '<p class="col-span-2 text-red-500 opacity-70">Error al cargar horarios. Intenta nuevamente.</p>';
+                }
+            };
+
+            const selectTime = (time) => {
+                selectedTime = time;
+                renderTimeSlots();
+                updateBookingSummary();
+                bookingForm.classList.remove('hidden');
+            };
+
+            const updateBookingSummary = () => {
+                if (selectedService && selectedDate && selectedTime) {
+                    const service = services[selectedService];
+                    const formattedDate = selectedDate.toLocaleDateString('es-ES', { 
+                        weekday: 'long', 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    });
+                    
+                    summaryService.textContent = service.name;
+                    summaryDate.textContent = formattedDate;
+                    summaryTime.textContent = selectedTime;
+                    summaryDuration.textContent = `${service.duration >= 60 ? Math.floor(service.duration / 60) + 'h' : ''} ${service.duration % 60 > 0 ? (service.duration % 60) + 'min' : ''}`;
+                }
+            };
+
+            const handleConfirmBooking = async () => {
+                const name = document.getElementById('name').value;
+                const phone = document.getElementById('phone').value;
+
+                if (!name || !phone) {
+                    alert('Por favor, completa todos los campos: nombre y teléfono.');
+                    return;
+                }
+                if (!selectedDate || !selectedTime || !selectedService) {
+                    alert('Por favor, selecciona un servicio, fecha y hora.');
+                    return;
+                }
+                
+                confirmBookingBtn.textContent = 'Guardando...';
+                confirmBookingBtn.disabled = true;
+
+                try {
+                    const dateString = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
+                    const service = services[selectedService];
+                    
+                    await window.firebase.addDoc(window.firebase.collection(window.db, "citas"), {
+                        nombre: name,
+                        telefono: phone,
+                        fecha: dateString,
+                        hora: selectedTime,
+                        servicio: service.name,
+                        servicio_id: selectedService,
+                        
+                    });
+
+                    // Enviar correo electrónico de notificación
+                    await emailjs.send("service_zxp6znw", "template_p59fp7s", {
+                        to_email: "yuridiamakeup@gmail.com",
+                        client_name: name,
+                        client_phone: phone,
+                        appointment_date: dateString,
+                        appointment_time: selectedTime,
+                        service_name: service.name,
+                        duracion_servicio: service.duration,
+                        timestamp: new Date()
+                    });
+
+                    const formattedDate = selectedDate.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                    const durationText = service.duration >= 60 ? 
+                        `${Math.floor(service.duration / 60)}h ${service.duration % 60 > 0 ? (service.duration % 60) + 'min' : ''}` : 
+                        `${service.duration}min`;
+                    
+                    confirmationDetailsEl.innerHTML = `
+                        <strong>${service.name}</strong><br>
+                        📅 ${formattedDate}<br>
+                        ⏰ ${selectedTime} (${durationText})<br><br>
+                        Recibirás una confirmación por WhatsApp.
+                    `;
+                    modal.classList.remove('hidden');
+
+                } catch (e) {
+                    console.error("Error al añadir el documento: ", e);
+                    alert('Hubo un error al guardar tu cita. Por favor, inténtalo de nuevo.');
+                } finally {
+                    confirmBookingBtn.textContent = 'Confirmar Cita';
+                    confirmBookingBtn.disabled = false;
+                }
+            };
+
+            const handleCloseModal = () => {
+                modal.classList.add('hidden');
+                selectedDate = null;
+                selectedTime = null;
+                selectedService = null;
+                serviceDuration = 0;
+                serviceSelect.value = '';
+                serviceInfo.classList.add('hidden');
+                document.getElementById('name').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('phone').value = '';
+                bookingForm.classList.add('hidden');
+                timeSlotsContainer.innerHTML = '<p class="col-span-2 text-brand-charcoal opacity-70">Primero selecciona un servicio y una fecha.</p>';
+                renderCalendar();
+            };
+            
+            // Event Listeners
+            serviceSelect.addEventListener('change', selectService);
+            prevMonthBtn.addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() - 1);
+                renderCalendar();
+            });
+            nextMonthBtn.addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+                renderCalendar();
+            });
+            
+            confirmBookingBtn.addEventListener('click', handleConfirmBooking);
+            closeModalBtn.addEventListener('click', handleCloseModal);
+            
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+
+            // Inicializar calendario
+            renderCalendar();
+        });
+    </script>
+</body>
+</html>
